@@ -20,7 +20,7 @@
   function render(data){
     snapshot=data;$('dashboard').classList.remove('hidden');$('loginForm').classList.add('hidden');$('logout').classList.remove('hidden');
     for(const key of ['total','originals','discovered','pending','approved','unavailable'])$(key+'Count').textContent=String(data.counts[key]);
-    $('searchStatus').textContent=({configuration_required:'Discovery needs configuration',success:'Search complete',error:'Search failed',idle:'Ready for discovery',searching:'Searching YouTube…',quota_wait:'Daily search limit reached',warning:'Saved collection needs attention'})[data.status]||data.status;
+    $('searchStatus').textContent=({configuration_required:'Discovery needs configuration',success:'Search complete',error:'Search failed',idle:'Ready for discovery',searching:'Searching YouTube…',interrupted:'Previous search interrupted',quota_wait:'Daily search limit reached',warning:'Saved collection needs attention'})[data.status]||data.status;
     $('searchMessage').textContent=data.message;
     $('lastAttempt').textContent=date(data.lastAttempt);$('lastSuccess').textContent=date(data.lastSuccess);
     $('newCount').textContent=String(data.lastNew);$('budgetCount').textContent=data.searchesToday+' / '+data.dailySearchLimit;

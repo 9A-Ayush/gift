@@ -74,7 +74,7 @@ function harness({withAPI=true,collection,cache,offline=false}={}){
   await flush();click('giftButton');advance(15000);assert.equal(players.length,0);
   advance(1750);await flush();assert.equal(players.length,1);players[0].ready();return players[0];
  }
- return {elements,players,jobs,events,context,advance,click,flush,openToPlayer};
+ return {elements,players,jobs,events,context,advance,click,flush,openToPlayer,setCollection:next=>{collection=next;}};
 }
 test('gift double click has one countdown; reveal follows a full 15 seconds',async()=>{
  const h=harness();await h.flush();h.click('giftButton');h.click('giftButton');
@@ -166,5 +166,13 @@ test('old browser metadata caches are scrubbed even when the backend is unreacha
  assert.deepEqual(Object.keys(saved.videos[0]).sort(),['availability','id']);
  const player=await h.openToPlayer();
  for(let i=0;i<20;i++){player.emit(0);h.advance(500);}
+ assert.ok(player.loads.includes('AbCdEfGhI01'));h.click('stopButton');
+});
+test('collection sync during playback never reloads the playing clip, and new approvals join a later cycle',async()=>{
+ const h=harness();const player=await h.openToPlayer();player.emit(1);
+ h.setCollection([...core.ORIGINAL_IDS,'AbCdEfGhI01'].map(id=>({id,availability:'available'})));
+ h.advance(61000);await h.flush();
+ assert.equal(player.loads.length,1);
+ for(let i=0;i<20;i++){player.emit(0);h.advance(500);player.emit(1);}
  assert.ok(player.loads.includes('AbCdEfGhI01'));h.click('stopButton');
 });

@@ -193,6 +193,7 @@
             if (generation !== session || phase !== 'playing' || event.target !== player) { event.target.destroy(); return; }
             cancel('init'); playerReady = true; creating = false; applySound();
             event.target.getIframe().title = 'Festive surprise — YouTube video player';
+            event.target.getIframe().setAttribute?.('aria-label', 'Festive surprise video');
             if (!paused) nextVideo();
           },
           onStateChange: event => {

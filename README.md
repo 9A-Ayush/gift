@@ -1,14 +1,47 @@
-# A little Diwali surprise
+# 🪔 A Little Diwali Surprise
 
-The existing plain HTML/CSS/JavaScript gift prank, upgraded with an animated Diwali gift, one 15-second countdown, fake verification, a dramatic reveal, fireworks/confetti, and continuous shuffled YouTube playback. The seven supplied reference IDs are protected. A small, dependency-free Node backend adds official YouTube discovery, durable reviews, and quota protection.
+A festive gift-prank website built with **HTML, CSS, JavaScript, and a lightweight Node.js backend**. It features an animated Diwali gift, a single 15-second countdown, playful verification messages, a dramatic reveal, festive effects, and continuous shuffled YouTube playback. The seven supplied reference videos are protected. The backend also supports official YouTube video discovery, persistent review decisions, and API-quota protection.
+
+## Contents
+
+- [Features](#features)
+- [Requirements](#requirements)
+- [Run locally](#run-locally)
+- [Enable automatic discovery](#enable-automatic-discovery)
+- [Gift curator dashboard](#gift-curator-dashboard)
+- [Discovery and review process](#discovery-and-review-process)
+- [Caching, persistence, and quotas](#caching-persistence-and-quotas)
+- [Playback and prank controls](#playback-and-prank-controls)
+- [Privacy and YouTube limitations](#privacy-and-youtube-limitations)
+- [Project files](#project-files)
+- [Run tests](#run-tests)
+- [Sharing and deployment](#sharing-and-deployment)
+- [Official references](#official-references)
+
+## Features
+
+- **Festive gift experience:** animated gift, countdown, verification sequence, reveal, fireworks, and confetti.
+- **Automatic video discovery:** searches YouTube through the official YouTube Data API.
+- **Owner review:** discovered candidates remain unverified until approved.
+- **Persistent collection:** saved video records and review decisions survive server restarts.
+- **Continuous shuffled playback:** approved videos join randomized playback cycles.
+- **Quota protection:** caching, cooldowns, daily request limits, and shared in-flight refreshes.
+- **Privacy-conscious recipient interface:** app-controlled public text does not reveal internal search terms or the subject's name.
+- **No runtime dependencies:** uses Node.js built-ins.
+
+## Requirements
+
+- **Node.js 22.9 or newer** (a supported Node.js LTS release is recommended).
+- Internet access for YouTube playback and automatic discovery.
+- A YouTube Data API v3 key to enable discovery. The gift experience can still use the original videos without a key.
 
 ## Run locally
 
 Install **Node.js 22.9 or newer** (a supported Node LTS is recommended), open a terminal in this folder, then:
 
-~~~powershell
+```powershell
 npm start
-~~~
+```
 
 No npm install is necessary: there are no runtime or test dependencies.
 
@@ -23,18 +56,18 @@ Serve through this backend rather than double-clicking index.html. YouTube embed
 3. Restrict the key to YouTube Data API v3. For a server with a fixed outbound IP, add an appropriate server IP restriction. A browser referrer restriction is not suitable for this server-side request.
 4. Copy the environment template:
 
-~~~powershell
+```powershell
 Copy-Item .env.example .env
-~~~
+```
 
 5. Edit .env on the **server**:
 
-~~~dotenv
+```dotenv
 YOUTUBE_API_KEY=your_youtube_data_api_key
 OWNER_TOKEN=your_long_random_private_owner_token
 HOST=127.0.0.1
 PORT=3000
-~~~
+```
 
 6. Restart npm start.
 
@@ -42,7 +75,7 @@ Never put the YouTube key in index.html, script.js, owner.js, a browser URL, or 
 
 With no key, discovery makes **zero YouTube Data API requests**, clearly reports that configuration is required, and preserves all seven originals.
 
-## Gift curator / owner dashboard
+## Gift curator dashboard
 
 Open **http://127.0.0.1:3000/owner.html**, or select Gift curator in the header.
 
@@ -56,7 +89,7 @@ Approve, reject, remove, or return a discovered clip to review. Removed/rejected
 
 Approved updates are picked up by the recipient page at startup and approximately once per minute during active playback. They join the next shuffled cycle; the current video continues. Removal takes effect for future selections after the collection sync, and never forcibly replaces the clip currently playing.
 
-## Recipient privacy and the YouTube boundary
+## Privacy and YouTube limitations
 
 The recipient page uses generic gift/surprise wording throughout its app-controlled headings, browser title, loading messages, notifications, iframe accessibility label, metadata and errors. The public playlist API returns only video IDs and availability. It never returns raw video titles, channel names, discovery reasons, thumbnails or internal search phrases. Public source files contain no subject name. Detailed metadata is available only through the authenticated owner API.
 
@@ -137,17 +170,17 @@ The app respects YouTube's controls and restrictions. Some original videos may a
 
 The shareable archive is named diwali_gift_updated.zip and extracts into diwali_gift/. It intentionally excludes .env, .data, generated owner credentials, and machine-specific runtime state. Your existing local .env and saved discoveries remain in your original project folder. Configure environment secrets again when running a fresh extracted copy.
 
-## Test
+## Run tests
 
-~~~powershell
+```powershell
 npm test
-~~~
+```
 
 Tests use Node's built-in runner and stubbed YouTube API/player responses. They exercise successful searches, deduplication, review persistence, empty results, missing configuration, quota/cooldown/concurrency, protected originals, filtering, failures, availability, playlist updates, shuffle cycles, countdown timing, single-player lifecycle, pause/stop/restart, and late callbacks.
 
 See TESTING.md for the exact tests run and browser checks. A real YouTube Data API end-to-end search requires your own key and remaining quota.
 
-## Sharing / deployment
+## Sharing and deployment
 
 Share the ZIP and let its recipient run npm start locally. For a hosted version, use a Node-capable host with persistent writable storage for .data, set environment secrets there, and serve over HTTPS behind your host's proxy. A static-only host cannot run discovery. The default listener is loopback-only; choose HOST=0.0.0.0 only for a deliberate server deployment. Do not expose the backend development port directly without the host's normal protection. Owner routes require the private token; keep it separate from the gift link.
 
@@ -159,7 +192,3 @@ For multiple server replicas, replace the local JSON store with a shared databas
 - [YouTube videos.list](https://developers.google.com/youtube/v3/docs/videos/list)
 - [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
 - [YouTube API setup](https://developers.google.com/youtube/v3/getting-started)
-#   g i f t 
- 
- #   g i f t  
- 

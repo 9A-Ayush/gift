@@ -75,6 +75,10 @@ export class Discovery {
       this.state={...this.state,...saved,videos:[...new Map([...originalRecords(),...videos].map(v=>[v.id,v])).values()]};
       // Originals cannot be removed or demoted by stale persisted review data.
       for(const v of this.state.videos)if(core.ORIGINAL_IDS.includes(v.id)){v.source='original';v.decision='approved';}
+      if(this.state.status==='searching'){
+        this.state.status='interrupted';
+        this.state.message='The previous search was interrupted. Saved videos and the reserved quota budget were retained. Retry after the normal cooldown.';
+      }
     } catch(error) {
       if(error.code!=='ENOENT'){this.state.status='warning';this.state.message='Saved collection could not be read. Originals are available; restore your backup before searching.';this.cacheBroken=true;}
     }
@@ -170,16 +174,18 @@ export class Discovery {
           availability:assessment.available?'available':'unavailable'};
       });
       const known=new Set(updated.map(v=>v.id));
-      let added=0;
+      let added=0,capacitySkipped=0,storedDiscoveries=updated.filter(v=>v.source==='discovered').length;
       for(const id of candidates){
-        if(known.has(id)||updated.filter(v=>v.source==='discovered').length>=MAX_CANDIDATES)continue;
+        if(known.has(id))continue;
         const detail=byId.get(id);if(!detail||!detail.snippet?.title||!detail.snippet?.channelTitle)continue;
         const assessment=assess(detail,channels);
         if(!assessment.eligible)continue;
-        updated.push(record(detail,assessment,now));known.add(id);added++;
+        if(storedDiscoveries>=MAX_CANDIDATES){capacitySkipped++;continue;}
+        updated.push(record(detail,assessment,now));known.add(id);added++;storedDiscoveries++;
       }
       s.videos=updated;s.lastNew=added;s.lastSuccess=new Date(now).toISOString();s.status='success';s.runs++;
       s.message=added?'Found '+added+' new candidate(s). Review them before adding to playback.':'Search completed. No new relevant candidates; your collection is unchanged.';
+      if(capacitySkipped)s.message='Search completed: '+added+' new candidate(s) saved; '+capacitySkipped+' additional match(es) were not saved because the 250-record discovery storage limit was reached. Existing records were retained.';
       await this.save();
     }catch{
       s.status='error';

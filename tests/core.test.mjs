@@ -197,3 +197,18 @@ test('public playlist omits names, titles, channels, thumbnails and search detai
  assert.ok(!/bobby|boby|बॉबी|बोबी/i.test(JSON.stringify(result)));
  assert.equal(d.snapshot().videos[0].title,'Bobby Raj reference');
 });
+test('restarting after an interrupted search reports it accurately and retains quota',async t=>{
+ const directory=await mkdtemp(join(tmpdir(),'gift-interrupted-'));t.after(()=>rm(directory,{recursive:true,force:true}));
+ const original=new Discovery({directory});await original.ready;
+ original.state.status='searching';original.state.budget={day:'2026-10-24',used:2};await original.save();
+ const reloaded=new Discovery({directory,apiKey:'test',now:()=>Date.parse('2026-10-24T12:00:00Z')});await reloaded.ready;
+ assert.equal(reloaded.snapshot().status,'interrupted');assert.equal(reloaded.snapshot().searchesToday,2);
+ assert.equal(reloaded.publicPlaylist().videos.length,7);
+});
+test('storage-cap status distinguishes unsaved matches from an empty search',async()=>{
+ const mock=mockYouTube();const d=new Discovery({apiKey:'test',fetcher:mock.fetcher});await d.ready;
+ d.state.videos.push(...Array.from({length:250},(_,i)=>({id:'recordxx'+String(i).padStart(3,'0'),source:'discovered',decision:'rejected',availability:'available'})));
+ await d.refresh();assert.equal(d.snapshot().lastNew,0);
+ assert.match(d.snapshot().message,/storage limit/);
+ assert.equal(d.snapshot().counts.discovered,250);
+});
