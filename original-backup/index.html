@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#170b1c">
+  <title>Happy Diwali — Your Very Special Gift</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app" id="app">
+    <section class="festive-scene" id="scene">
+      <div class="string-lights" aria-hidden="true">✦　·　✧　·　✦　·　✧　·　✦</div>
+      <p class="eyebrow">A LITTLE FESTIVE SURPRISE</p>
+      <h1>🪔 Happy <span>Diwali</span> 🪔</h1>
+      <p class="subtitle">A special gift, wrapped with love and questionable intentions ❤️</p>
+      <div class="diyas" aria-hidden="true"><span>🪔</span><span>✨</span><span>🎆</span><span>✨</span><span>🪔</span></div>
+
+      <div class="gift-zone">
+        <div class="gift" id="gift" aria-hidden="true">🎁</div>
+        <p class="gift-label" id="giftLabel">YOUR GIFT IS WAITING. PLEASE BE PATIENT.</p>
+      </div>
+
+      <p class="status" id="status" aria-live="polite">
+        Initializing festive nonsense. Your gift will open in 15 seconds. Probably. 😇
+      </p>
+      <div class="countdown-wrap">
+        <div class="countdown" id="countdown" aria-live="polite">15</div>
+        <span>seconds until your surprise</span>
+      </div>
+
+      <div class="progress-track" id="progressTrack" role="progressbar"
+           aria-label="Gift loading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-meta">
+        <span id="loadingTask">Polishing the gift ribbon…</span>
+        <strong id="percent">0%</strong>
+      </div>
+
+      <div class="checklist">
+        <div class="check" id="check1">⏳ Wrapping with love: pending</div>
+        <div class="check" id="check2">⏳ Adding sparkle: pending</div>
+        <div class="check" id="check3">⏳ Lighting the diyas: pending</div>
+        <div class="check" id="check4">⏳ Preparing the surprise: pending</div>
+      </div>
+
+      <div class="actions">
+        <button class="button button-primary shuffle-button" id="giftButton" type="button">UNWRAP GIFT 🎁</button>
+        <button class="button button-secondary shuffle-button" id="statusButton" type="button">Check gift status</button>
+        <button class="button button-secondary" id="soundButton" type="button">🔊 Enable sound</button>
+      </div>
+      <p class="sound-note">Sound starts only after you interact with this page. Your browser may still block autoplay with sound.</p>
+
+      <div class="ticker" aria-hidden="true">
+        <span>✨ FESTIVAL OF LIGHTS · FESTIVAL OF LOADING · 99% COMPLETE · STILL LOADING · HAPPY DIWALI · ✨</span>
+      </div>
+    </section>
+
+    <section class="player-panel hidden" id="playerPanel" aria-labelledby="surpriseTitle">
+      <div class="player-heading">
+        <div>
+          <h2 id="surpriseTitle">SURPRISE! 😂</h2>
+          <p>Your gift is a Bobby Raj meme. You're welcome.</p>
+        </div>
+        <strong id="playCount">MEME 1</strong>
+      </div>
+      <div id="playerHost" class="video-player" aria-label="Bobby Raj meme video player"></div>
+      <p class="player-status" id="playerStatus" aria-live="polite">
+        The meme parade is preparing itself…
+      </p>
+      <div class="shuffle-zone" id="shuffleZone">
+        <button class="button button-secondary shuffle-button" id="mysteryButton" type="button">Claim extra gift?</button>
+        <button class="button button-secondary shuffle-button" id="loadingButton" type="button">Fix the loading</button>
+        <button class="button button-secondary shuffle-button" id="bonusButton" type="button">Check bonus sparkle</button>
+      </div>
+      <p class="fine-print">
+        Videos are selected in shuffled order and keep cycling. The embedded player has no visible controls.
+        Browser/YouTube autoplay rules can prevent sound or scripted playback; use your browser's tab controls to leave.
+      </p>
+    </section>
+    <footer class="footer">Made with diyas, drama, and a suspicious amount of patience. 🪔</footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

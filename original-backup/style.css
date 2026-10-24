@@ -1,0 +1,68 @@
+* { box-sizing: border-box; }
+:root { color-scheme: dark; --gold: #ffdc88; --cream: #fff0d0; }
+body {
+  margin: 0; min-height: 100vh; padding: 20px 12px 36px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #fff1d1;
+  background: radial-gradient(ellipse at top, #3b1731 0%, #160b1c 48%, #08070d 100%);
+}
+button { font: inherit; }
+button:focus-visible { outline: 3px solid #ffe7a3; outline-offset: 4px; }
+.app { width: min(800px, 100%); margin: 0 auto; }
+.festive-scene {
+  position: relative; isolation: isolate; overflow: hidden;
+  padding: clamp(16px, 4vw, 32px); min-height: 520px;
+  border: 1px solid #a66b35; border-radius: 22px;
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(153,54,30,.8), transparent 56%),
+    radial-gradient(ellipse at 50% 100%, #4d1826 0, #28101c 48%, #100b1d 100%);
+  box-shadow: 0 18px 60px rgba(0,0,0,.3);
+}
+.string-lights { color: var(--gold); text-align: center; letter-spacing: clamp(4px,2vw,14px); font-size: clamp(14px,2vw,20px); animation: twinkle 1s ease-in-out infinite alternate; }
+.eyebrow { margin: 20px 0 0; color: #ffca79; text-align: center; font-size: 10px; font-weight: 900; letter-spacing: .2em; }
+h1 { margin: 10px 0; color: var(--cream); font-size: clamp(32px,7vw,58px); line-height: 1.05; letter-spacing: -.05em; text-align: center; text-shadow: 0 2px #8e301d, 0 0 22px #ff8d35; }
+h1 span { color: var(--gold); }
+.subtitle { margin: 0 auto; text-align: center; font-size: 14px; color: #ffe7c1; }
+.diyas { display: flex; justify-content: center; align-items: center; gap: clamp(10px,3vw,24px); margin: 20px 0 8px; font-size: clamp(20px,4vw,30px); }
+.diyas span { animation: float 700ms ease-in-out infinite alternate; }
+.diyas span:nth-child(even) { animation-delay: 300ms; }
+.gift-zone { min-height: 145px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.gift { font-size: clamp(82px,17vw,124px); line-height: 1; filter: drop-shadow(0 0 16px #ffad35); animation: gift-bob 1.2s ease-in-out infinite; }
+.gift-label { margin: 10px 0 0; text-align: center; font-size: 12px; font-weight: 950; letter-spacing: .06em; color: var(--gold); }
+.status { max-width: 530px; min-height: 42px; margin: 12px auto 8px; color: #ffe6c6; text-align: center; font-size: 14px; }
+.countdown-wrap { display: flex; justify-content: center; align-items: center; gap: 10px; color: #ffe3b3; font-size: 12px; }
+.countdown { display: grid; place-items: center; width: 42px; height: 42px; border: 2px solid #ffcc72; border-radius: 50%; color: #35121e; background: #ffda80; font-size: 20px; font-weight: 1000; box-shadow: 0 0 20px #e97e32; }
+.progress-track { max-width: 510px; height: 13px; margin: 10px auto; overflow: hidden; border: 1px solid #ad7146; border-radius: 8px; background: #29131c; }
+.progress-fill { width: 0; height: 100%; background: repeating-linear-gradient(45deg,#ffce65 0 9px,#f27434 9px 18px); transition: width 220ms linear; }
+.progress-meta { display: flex; justify-content: space-between; gap: 10px; max-width: 510px; margin: 0 auto; color: #ffe3b3; font-size: 12px; }
+.checklist { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; margin-top: 19px; }
+.check { padding: 10px; border: 1px solid #795037; border-radius: 10px; background: rgba(41,21,29,.9); color: #ffebd1; font-size: 12px; }
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; margin-top: 18px; }
+.button { min-height: 44px; padding: 11px 15px; border: 1px solid #ffe0a0; border-radius: 12px; font-size: 12px; font-weight: 900; cursor: pointer; transition: transform .15s ease; }
+.button-primary { color: #48170e; background: linear-gradient(130deg,#ffe18a,#ff9d3b); }
+.button-secondary { color: #ffebcb; background: #351722; border-color: #a97050; }
+.button:active { transform: scale(.97); }
+.sound-note { text-align: center; font-size: 11px; color: #d6b9a6; }
+.ticker { overflow: hidden; margin-top: 16px; padding: 9px 0; border: 1px solid #9b5c34; border-radius: 8px; background: #2b111d; color: #ffdf8b; font-size: 11px; font-weight: 900; letter-spacing: .1em; white-space: nowrap; }
+.ticker span { display: inline-block; padding-left: 100%; animation: ticker 12s linear infinite; }
+.player-panel { margin-top: 16px; padding: 16px; border: 1px solid #7f593b; border-radius: 16px; background: #17101b; }
+.hidden { display: none !important; }
+.player-heading { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+.player-heading h2 { margin: 0; font-size: 21px; color: var(--gold); }
+.player-heading p, .player-status, .fine-print { font-size: 12px; color: #c9bdc9; }
+.player-heading p { margin: 5px 0 0; }
+.video-player { width: 100%; aspect-ratio: 9/16; max-height: 540px; border-radius: 12px; overflow: hidden; background: #050505; }
+.video-player iframe { display: block; width: 100%; height: 100%; border: 0; }
+.player-status { min-height: 18px; margin: 10px 0; }
+.fine-print { line-height: 1.5; margin-top: 12px; }
+.shuffle-zone { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; }
+.shuffle-button { position: relative; }
+.shake { animation: shake 220ms linear 2; }
+.footer { padding: 16px 8px 0; text-align: center; color: #c7a8a9; font-size: 11px; }
+@keyframes twinkle { from { opacity: .4; } to { opacity: 1; } }
+@keyframes float { from { transform: translateY(2px) rotate(-4deg); } to { transform: translateY(-6px) rotate(4deg); } }
+@keyframes gift-bob { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-5px) rotate(1deg); } }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(5px); } 75% { transform: translateX(-5px); } }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+@media(max-width:440px) { body { padding: 12px 8px 28px; } .checklist { grid-template-columns: 1fr; } .festive-scene { border-radius: 16px; } }
+@media(prefers-reduced-motion:reduce) { .string-lights,.diyas span,.gift,.ticker span,.shake { animation: none !important; } }

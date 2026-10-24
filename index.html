@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#150e22"><meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="description" content="A little Diwali magic. A very unexpected gift. Open your festive surprise.">
+  <title>A little Diwali surprise</title>
+  <link rel="stylesheet" href="style.css"><script defer src="playlist.js"></script><script defer src="script.js"></script>
+</head>
+<body>
+  <canvas id="celebration" aria-hidden="true"></canvas><div class="ambient" aria-hidden="true"></div>
+  <div class="app" id="app">
+    <header class="masthead">
+      <a class="brand" href="/" aria-label="Diwali Gift home"><span class="brand-mark">✧</span> THE DIWALI GIFT <span class="edition">/ 2026 EDITION</span></a>
+      <a class="quiet-link" href="owner.html">Gift curator ↗</a>
+    </header>
+    <main>
+      <section class="festive-scene" id="scene" aria-labelledby="giftTitle">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="tiny-light"></span> WRAPPED WITH LOVE. AND A LITTLE MISCHIEF.</p>
+          <h1 id="giftTitle">A little light.<br>A lot of <em>surprise.</em></h1>
+          <p class="subtitle">Some gifts are worth the wait.<br>This one is about to test that theory.</p>
+          <div class="actions">
+            <button class="button button-primary" id="giftButton" type="button" aria-label="Unwrap your Diwali gift">Unwrap my gift <span aria-hidden="true">↗</span></button>
+            <button class="text-button" id="statusButton" type="button">Is it actually a gift?</button>
+          </div>
+          <p class="sound-note">15 seconds of suspense. An unreasonable amount of joy.</p>
+          <div class="wish"><span aria-hidden="true">✦</span> A very happy Diwali to you &amp; yours.</div>
+        </div>
+        <div class="gift-stage">
+          <div class="orbit orbit-one" aria-hidden="true"></div><div class="orbit orbit-two" aria-hidden="true"></div>
+          <span class="stage-star star-one" aria-hidden="true">✧</span><span class="stage-star star-two" aria-hidden="true">✦</span>
+          <p class="stage-caption">SOMETHING SPECIAL INSIDE</p>
+          <div class="gift-zone"><div class="gift" id="gift" aria-hidden="true">
+            <div class="gift-glow"></div><div class="gift-body"><div class="gift-ribbon"></div><span class="gift-seal">✧</span></div>
+            <div class="gift-lid"><span class="bow bow-left"></span><span class="bow bow-right"></span><span class="lid-ribbon"></span></div><span class="gift-tag">for you ♡</span>
+          </div></div>
+          <p class="gift-label" id="giftLabel">HANDLE WITH CURIOSITY</p>
+          <div class="diyas" aria-hidden="true"><div class="diya"><i></i></div><span>शुभ दीपावली</span><div class="diya"><i></i></div></div>
+        </div>
+      </section>
+      <section class="ritual glass" aria-label="Gift opening progress">
+        <div class="ritual-header"><div><p class="eyebrow">THE UNWRAPPING CEREMONY</p><p class="status" id="status" role="status">Your invitation to a little festive nonsense.</p></div><div class="countdown-wrap"><strong class="countdown" id="countdown">15</strong><span>seconds<br>of suspense</span></div></div>
+        <div class="progress-track" id="progressTrack" role="progressbar" aria-label="Gift authenticity verification" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-meta"><span id="loadingTask">Authenticity check: suspiciously gift-shaped</span><strong id="percent">0%</strong></div>
+        <div class="checklist"><span class="check" id="check1">01 / Ribbon inspection</span><span class="check" id="check2">02 / Diya approval</span><span class="check" id="check3">03 / Happiness calibration</span><span class="check" id="check4">04 / The big reveal</span></div>
+        <div class="essential-controls" aria-label="Experience controls">
+          <button class="pill" id="pauseButton" type="button" disabled>Pause</button><button class="pill" id="stopButton" type="button" disabled>Stop</button><button class="pill" id="restartButton" type="button">Restart</button>
+          <button class="pill sound-control" id="soundButton" type="button" aria-pressed="false">Sound off</button><label class="volume-label" for="volume">Volume <input id="volume" type="range" min="0" max="100" value="60"></label>
+        </div>
+        <div class="toast hidden" id="toast" role="status"></div>
+      </section>
+      <section class="player-panel glass hidden" id="playerPanel" aria-labelledby="surpriseTitle">
+        <div class="player-heading"><div><p class="eyebrow">YOUR GIFT HAS ENTERED ITS MEME ERA</p><h2 id="surpriseTitle" tabindex="-1">Surprise. A plot twist, just for you.</h2><p>Same festive spirit. Questionable return policy.</p></div><div class="counter"><strong id="playCount">0</strong><span>videos played</span></div></div>
+        <div class="cinema">
+          <div class="cinema-screen"><p class="media-state" id="videoLoading" role="status"><span class="media-spinner" aria-hidden="true"></span><span id="videoLoadingText">The next surprise is on its way.</span></p><div class="video-player"><div id="playerHost"></div></div></div>
+          <div class="cinema-copy"><span class="live-badge"><span class="tiny-light"></span> THE GIFT THAT KEEPS GIVING</span><h3>You asked for a gift.<br>The universe said <em>“encore.”</em></h3>
+            <p class="player-status" id="playerStatus" role="status">Preparing the meme parade…</p>
+            <div class="playback-actions"><button class="button button-primary" id="playButton" type="button">Play video</button><button class="button button-secondary" id="skipButton" type="button">Next clip →</button></div>
+            <a id="watchLink" class="quiet-link" href="https://www.youtube.com/shorts/sbgbQOFZxwU" target="_blank" rel="noopener noreferrer">Watch this clip on YouTube ↗</a>
+            <p class="fine-print">Playback depends on YouTube, embedding permissions, and your browser. Sound is always your choice.</p>
+          </div>
+        </div>
+        <div class="shuffle-zone" id="shuffleZone" aria-label="Bonus festive nonsense"><button class="pill shuffle-button" id="mysteryButton" type="button">Claim extra happiness</button><button class="pill shuffle-button" id="loadingButton" type="button">Verify my festive vibes</button><button class="pill shuffle-button" id="bonusButton" type="button">Request a refund</button></div>
+        <p class="final-message hidden" id="finalMessage" role="status">You survived five memes. Your real gift? The patience you discovered along the way. Happy Diwali. 🪔 <button class="text-button" id="finalStop" type="button">Take a well-earned break</button></p>
+      </section>
+      <div class="ticker" aria-hidden="true"><span>GOOD VIBES, QUESTIONABLE GIFTS ✦ HAND-WRAPPED NONSENSE ✦ PREMIUM FESTIVE DRAMA ✦ GOOD VIBES, QUESTIONABLE GIFTS ✦ HAND-WRAPPED NONSENSE ✦</span></div>
+    </main>
+    <footer class="footer"><span>Made with diyas, drama &amp; questionable intentions.</span><span>NO RETURNS. JUST GOOD WISHES. ✧</span></footer>
+  </div>
+  <div class="reveal hidden" id="reveal" role="status"><span>YOUR GIFT IS…</span><strong>100% unexpected.</strong><p>The ribbon was a distraction.</p></div>
+  <noscript><p class="noscript">Enable JavaScript to open the gift. The surprise and playback controls need it.</p></noscript>
+</body>
+</html>

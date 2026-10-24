@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#150e22">
+  <meta name="referrer" content="strict-origin-when-cross-origin"><title>Gift curator — Diwali surprise</title>
+  <link rel="stylesheet" href="style.css"><script defer src="owner.js"></script>
+</head>
+<body>
+<div class="ambient" aria-hidden="true"></div>
+<div class="app">
+  <header class="masthead"><a class="brand" href="/"><span class="brand-mark">✧</span> THE DIWALI GIFT <span class="edition">/ COLLECTION ROOM</span></a><a class="quiet-link" href="/">Back to the gift ↗</a></header>
+  <main class="owner-main">
+    <div class="owner-heading"><div><p class="eyebrow">A LITTLE CURATION. BETTER SURPRISES.</p><h1>The collection room.</h1><p>Discover, review, and keep the good ones.</p></div><button class="pill hidden" id="logout" type="button">Lock collection room</button></div>
+    <form class="owner-auth glass" id="loginForm">
+      <label for="ownerToken">Owner token</label><input id="ownerToken" type="password" required autocomplete="current-password" placeholder="Enter your server's owner token">
+      <button class="button button-primary" type="submit">Unlock collection</button>
+      <p>Use OWNER_TOKEN from your server's environment, or the generated token in <code>.data/owner-token.txt</code>. The README explains setup.</p>
+    </form>
+    <p id="ownerFeedback" role="status" class="owner-notice">The original seven clips work without a discovery API key.</p>
+    <div id="dashboard" class="hidden">
+      <div class="owner-stats">
+        <div class="stat glass"><strong id="totalCount">0</strong><span>stored records</span></div>
+        <div class="stat glass"><strong id="originalsCount">0</strong><span>original references</span></div>
+        <div class="stat glass"><strong id="discoveredCount">0</strong><span>discovered candidates</span></div>
+        <div class="stat glass"><strong id="pendingCount">0</strong><span>awaiting review</span></div>
+        <div class="stat glass"><strong id="approvedCount">0</strong><span>approved incl. originals</span></div>
+        <div class="stat glass"><strong id="unavailableCount">0</strong><span>unavailable</span></div>
+      </div>
+      <section class="discovery-status glass" aria-label="Discovery status">
+        <strong id="searchStatus">Not searched</strong><p id="searchMessage"></p>
+        <p>Last attempt: <span id="lastAttempt">Never</span> · Last successful search: <span id="lastSuccess">Never</span></p>
+        <p>New candidates in latest attempt: <b id="newCount">0</b> · Search calls today: <span id="budgetCount">0 / 6</span></p>
+        <p id="configurationHelp" class="hidden">Enable YouTube Data API v3 in your Google Cloud project. Copy <code>.env.example</code> to <code>.env</code>, set <code>YOUTUBE_API_KEY</code>, and restart. <a href="https://developers.google.com/youtube/v3/getting-started" target="_blank" rel="noopener noreferrer">Official setup guide ↗</a></p>
+        <button class="button button-primary" id="refreshButton" type="button">Search for new Shorts ↻</button>
+        <p>Two rotating queries per search. Automatic cache: 6 hours. Manual cooldown: 10 minutes. Maximum: 6 search calls per UTC day.</p>
+      </section>
+      <p class="owner-notice">Search uses the supplied videos' channel context plus name, topic, duration, and embedding checks. These are <strong>unverified candidates</strong>. Watch each result and confirm it features your intended subject before approving. Metadata cannot establish a person's identity, distinguish every commentary video, or detect every re-upload.</p>
+      <div class="owner-toolbar"><label for="collectionFilter">Show</label><select id="collectionFilter"><option value="pending">Awaiting review</option><option value="approved">Approved</option><option value="original">Original seven</option><option value="unavailable">Unavailable</option><option value="rejected">Rejected</option><option value="removed">Removed</option><option value="all">Everything</option></select><button class="pill" id="reloadButton" type="button">Reload saved collection</button></div>
+      <div class="collection-grid" id="collection"></div>
+    </div>
+  </main>
+  <footer class="footer"><span>Original references are always protected.</span><span>REVIEW FIRST. RELEASE THE NONSENSE SECOND. ✧</span></footer>
+</div>
+</body>
+</html>
