@@ -1,4 +1,4 @@
-# Diwali Bobby Gift
+# A little Diwali surprise
 
 The existing plain HTML/CSS/JavaScript gift prank, upgraded with an animated Diwali gift, one 15-second countdown, fake verification, a dramatic reveal, fireworks/confetti, and continuous shuffled YouTube playback. The seven supplied reference IDs are protected. A small, dependency-free Node backend adds official YouTube discovery, durable reviews, and quota protection.
 
@@ -48,7 +48,7 @@ Open **http://127.0.0.1:3000/owner.html**, or select Gift curator in the header.
 
 Unlock it with OWNER_TOKEN. If you leave that setting empty, the server generates a token in **.data/owner-token.txt**. Read that file locally (for example, Get-Content .data/owner-token.txt) and paste the token into the owner page. The token is never embedded in frontend code or exposed through an API. Authentication is stored in sessionStorage for this browser tab; Lock collection room removes it.
 
-The dashboard shows total collection size, discovered candidates, pending review, approved records (including originals), unavailable records, latest new candidates, last attempt, last successful search, API status, and daily search usage. Filters expose original, approved, pending, rejected, removed, and unavailable records. Newly discovered titles, thumbnails, channels, durations, and YouTube preview links appear on candidate cards.
+The dashboard shows all stored records (including retained rejected/removed decisions), the original reference count, discovered candidates, pending review, approved records (including originals), unavailable records, latest new candidates, last attempt, last successful search, API status, and daily search usage. Filters expose original, approved, pending, rejected, removed, and unavailable records. Newly discovered titles, thumbnails, channels, durations, and YouTube preview links appear on candidate cards.
 
 **Watch each candidate before approving it.** Search metadata does not prove that a video features the same person. The app does not perform facial recognition or claim automatic identity verification. Candidates can include commentary or re-uploads despite the filters. All discoveries begin as **unverified / pending**; only an explicit owner approval makes them playable.
 
@@ -56,13 +56,25 @@ Approve, reject, remove, or return a discovered clip to review. Removed/rejected
 
 Approved updates are picked up by the recipient page at startup and approximately once per minute during active playback. They join the next shuffled cycle; the current video continues. Removal takes effect for future selections after the collection sync, and never forcibly replaces the clip currently playing.
 
+## Recipient privacy and the YouTube boundary
+
+The recipient page uses generic gift/surprise wording throughout its app-controlled headings, browser title, loading messages, notifications, iframe accessibility label, metadata and errors. The public playlist API returns only video IDs and availability. It never returns raw video titles, channel names, discovery reasons, thumbnails or internal search phrases. Public source files contain no subject name. Detailed metadata is available only through the authenticated owner API.
+
+**YouTube controls its embedded content.** Its own title/channel overlays, recommendations, audio, captions or the video itself can reveal the subject's name. The supported YouTube player cannot guarantee that this content stays anonymous. The obsolete showinfo setting does not hide titles. This project does not mask, crop out or place overlays over the YouTube player to evade that restriction.
+
+If you require an absolute guarantee that the name never appears or is heard, the original YouTube playback requirement cannot provide it. That would require separately licensed and reviewed media with controlled metadata/content, rather than these unmodified YouTube embeds.
+
+- [YouTube title/overlay behavior](https://developers.google.com/youtube/player_parameters#revision_history)
+- [YouTube embedded-player requirements](https://developers.google.com/youtube/terms/required-minimum-functionality)
+
 ## How discovery works
 
 - Supported official endpoints only: search.list, then videos.list. No scraping.
 - Rotates all six requested search phrases over three runs; alternates relevance/date ordering.
 - Looks up the supplied reference videos to find channel context for candidate ranking.
 - Each run searches two phrases with up to 25 results each; deduplicates by video ID.
-- Requires the subject's name in the title plus relevant maths/teacher/Josh Talks/meme context. A reference-channel match improves ranking, never establishes identity or bypasses the topic requirement.
+- Evaluates names across titles, descriptions and tags together with relevant topic signals. A title does not need a particular keyword. Child/maths context on a reference channel can also retain an uncertain candidate without any explicit name. A channel match alone never qualifies a result or establishes identity.
+- Separately labels possible features, possible commentary/reactions, and uncertain matches. These are metadata assessments, not visual identity claims. All still require owner review.
 - Validates title, channel, duration, public/processed status, embedding permission, and restrictions.
 - Searches with videoDuration=short and accepts durations of **1–180 seconds**. The API's short filter means under four minutes; it does not certify Shorts. The API does not expose a reliable universal Shorts/vertical flag, so these are short-video candidates pending review.
 - Rejects region-restricted and age-restricted discoveries conservatively.
@@ -88,7 +100,9 @@ The server starts a discovery check at startup. Recipient collection requests al
 
 State is saved atomically in **.data/collection.json**. Back up .data privately if you want to retain the collection, owner token, and reviews. Do not commit it or distribute it. A corrupt collection fails safely with a visible warning, retains original playback, and disables discovery until the owner restores/fixes the file. Restore a valid backup before restarting.
 
-The browser also retains the latest approved collection for up to seven days as a network-failure fallback. It never stores the API key. Disconnected clients may temporarily use previously approved records until the server becomes reachable.
+The collection lives in .data on the machine running the Node server. Browsers accessing that same server share its approved collection; separate local installations do not share data automatically. Back up that server folder to move the collection.
+
+The browser also retains approved IDs and availability for up to seven days as a network-failure fallback. This browser cache is local to that device; it does not contain video titles, channel names, thumbnails, internal queries or the API key. Older caches are scrubbed automatically. Disconnected clients may temporarily use previously approved records until the server becomes reachable.
 
 ## Playback and prank controls
 
@@ -99,6 +113,7 @@ The browser also retains the latest approved collection for up to seven days as 
 - Fisher–Yates shuffle covers the collection each cycle and avoids consecutive repeats across cycle boundaries when more than one playable clip exists.
 - Ended clips advance automatically. Failed clips are skipped for the active attempt. If all fail, playback stops trying and displays a fallback; Play video can retry.
 - A 20-second startup watchdog offers manual Play/Next rather than cycling endlessly through autoplay-blocked clips.
+- Real connecting, buffering, playing, paused, stopped and fallback states appear outside the iframe. The funny gift progress is separate from actual YouTube loading state.
 - Visible Play, Pause/Resume, Stop, Restart, Next, Sound and Volume controls stay fixed and accessible.
 - Sound defaults off. Chimes and video audio respect your selection and volume; audible autoplay is not guaranteed.
 - The video count increments on actual playback starts, once per clip selection, rather than on failed load attempts.
@@ -120,7 +135,7 @@ The app respects YouTube's controls and restrictions. Some original videos may a
 - original-backup/ — the three untouched original files, retained for reference
 - TESTING.md — verification notes and external-service limits
 
-The ZIP intentionally excludes .env, .data, generated owner credentials, and machine-specific runtime state.
+The shareable archive is named diwali_gift_updated.zip and extracts into diwali_gift/. It intentionally excludes .env, .data, generated owner credentials, and machine-specific runtime state. Your existing local .env and saved discoveries remain in your original project folder. Configure environment secrets again when running a fresh extracted copy.
 
 ## Test
 
@@ -144,5 +159,7 @@ For multiple server replicas, replace the local JSON store with a shared databas
 - [YouTube videos.list](https://developers.google.com/youtube/v3/docs/videos/list)
 - [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
 - [YouTube API setup](https://developers.google.com/youtube/v3/getting-started)
-#   g i f t  
+#   g i f t 
+ 
+ #   g i f t  
  
